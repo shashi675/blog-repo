@@ -1,7 +1,8 @@
 package com.project.journalApp.controller;
 
+import com.project.journalApp.api.response.WeatherResponse;
+import com.project.journalApp.service.WeatherService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -18,9 +19,26 @@ import com.project.journalApp.service.UserService;
 public class UserController {
 		
 	private UserService userService;
+	private WeatherService weatherService;
 
 
 //	create user method is in public controller
+
+
+	@GetMapping("/greet")
+	public ResponseEntity<?> greeting() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userName = authentication.getName();
+
+		WeatherResponse weatherResponse = weatherService.getWeather("delhi");
+		String greet = "";
+		if(weatherResponse != null) {
+			greet = ", it feels like " + weatherResponse.getMain() .getFeelsLike()+ " degrees temp.";
+			return ResponseEntity.ok("hi " + userName + greet);
+
+		}
+		return ResponseEntity.internalServerError().build();
+	}
 
 	@PutMapping()
 	public ResponseEntity<?> updateUser(@RequestBody User user) {
