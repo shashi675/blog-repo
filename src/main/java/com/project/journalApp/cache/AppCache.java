@@ -21,6 +21,7 @@ public class AppCache {
 
     @PostConstruct
     public void init() {
+        System.out.println("post construct");
         List<JournalConfig> allConfigs = journalConfigRepository.findAll();
         for (JournalConfig allConfig : allConfigs) {
             appCache.put(allConfig.getKey(), allConfig.getValue());

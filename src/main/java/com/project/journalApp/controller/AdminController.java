@@ -1,5 +1,6 @@
 package com.project.journalApp.controller;
 
+import com.project.journalApp.cache.AppCache;
 import com.project.journalApp.entity.User;
 import com.project.journalApp.service.AdminService;
 import com.project.journalApp.service.UserService;
@@ -17,6 +18,8 @@ public class AdminController {
 
     AdminService adminService;
 
+    AppCache appCache;
+
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
@@ -31,4 +34,10 @@ public class AdminController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("/clear-app-cache")
+    public void clearAppCache() {
+        appCache.init();
+    }
+
 }
