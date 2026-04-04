@@ -39,7 +39,7 @@ public class UserService {
 	}
 	
 	public void deleteById(ObjectId id) {
-		userRepository.deleteById(id);;
+		userRepository.deleteById(id);
 	}
 
     public void deleteByUserName(String userName) {

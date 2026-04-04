@@ -1,14 +1,15 @@
 package com.project.journalApp.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 
 @Setter
 @Getter
-public class WeatherResponse{
+public class WeatherResponse {
     private List<Weather> weather;
     private String base;
     private Main main;
@@ -19,7 +20,7 @@ public class WeatherResponse{
     @Setter
     @Getter
 //    @NoArgsConstructor
-    public static class Main{
+    public static class Main {
         private double temp;
         @JsonProperty("feels_like")
         private double feelsLike;
@@ -30,7 +31,7 @@ public class WeatherResponse{
     @Setter
     @Getter
 //    @NoArgsConstructor
-    public static class Weather{
+    public static class Weather {
         private int id;
         private String main;
         private String description;

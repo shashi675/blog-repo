@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -14,11 +15,12 @@ import com.project.journalApp.entity.User;
 import com.project.journalApp.repository.JournalEntryRepository;
 
 @Component
+@Slf4j
 public class JournalEntryService {
-	
+
 	@Autowired
 	private JournalEntryRepository journalEntryRepository;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -26,7 +28,7 @@ public class JournalEntryService {
 		User user = userService.getByUserName(userName);
 		return user.getJournalEntries();
 	}
-	
+
 	@Transactional
 //	for transaction management: if something breaks, error is thrown, we should not catch it in the same method, it should be thrown to consider whole method as single transaction (atomicity).
 	public void saveEntry(JournalEntry journalEntry, String userName) {
@@ -48,7 +50,7 @@ public class JournalEntryService {
 		}
 		return null;
 	}
-	
+
 	@Transactional
 	public boolean deleteById(ObjectId id, String userName) {
 		boolean isRemoved = false;
@@ -61,7 +63,7 @@ public class JournalEntryService {
 				userService.saveExistingUser(user);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			log.error("exception occured duing deleting an entry", e);
 			throw new RuntimeException("An error occured during deleting an entry. ", e);
 		}
 		return isRemoved;
